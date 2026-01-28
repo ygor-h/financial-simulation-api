@@ -5,6 +5,8 @@ import com.ygorhenrique.financial_simulation_api.dto.SimulationDTO;
 import com.ygorhenrique.financial_simulation_api.repository.SimulationRepository;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -40,5 +42,20 @@ public class SimulationService {
                 () -> new RuntimeException("ID não encontrado")
         );
         simulationRepository.delete(simulation);
+    }
+
+    public BigDecimal simulate(SimulationDTO simulationDTO) {
+        return calculateFinalValue(simulationDTO);
+    }
+
+    private BigDecimal calculateFinalValue(SimulationDTO simulationDTO) {
+        BigDecimal decimalRate = simulationDTO.getInterestRate()
+                .divide(BigDecimal.valueOf(100), 6, RoundingMode.HALF_UP);
+        BigDecimal growthFactor = decimalRate.add(BigDecimal.ONE);
+
+        return simulationDTO.getInitialValue()
+                .multiply(growthFactor)
+                .pow(simulationDTO.getPeriodInMonths())
+                .setScale(2, RoundingMode.HALF_UP);
     }
 }
