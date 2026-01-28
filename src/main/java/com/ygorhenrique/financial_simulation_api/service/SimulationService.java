@@ -58,4 +58,8 @@ public class SimulationService {
                 .pow(simulationDTO.getPeriodInMonths())
                 .setScale(2, RoundingMode.HALF_UP);
     }
+
+    private BigDecimal calculateTotalProfit(SimulationDTO simulationDTO) {
+        return simulate(simulationDTO).subtract(simulationDTO.getInitialValue());
+    }
 }
