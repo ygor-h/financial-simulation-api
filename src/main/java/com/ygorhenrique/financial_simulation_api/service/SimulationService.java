@@ -1,6 +1,7 @@
 package com.ygorhenrique.financial_simulation_api.service;
 
 import com.ygorhenrique.financial_simulation_api.domain.simulation.Simulation;
+import com.ygorhenrique.financial_simulation_api.dto.CalculationResponseDTO;
 import com.ygorhenrique.financial_simulation_api.dto.SimulationDTO;
 import com.ygorhenrique.financial_simulation_api.repository.SimulationRepository;
 import org.springframework.stereotype.Service;
@@ -44,8 +45,13 @@ public class SimulationService {
         simulationRepository.delete(simulation);
     }
 
-    public BigDecimal simulate(SimulationDTO simulationDTO) {
-        return calculateFinalValue(simulationDTO);
+    public CalculationResponseDTO simulate(SimulationDTO simulationDTO) {
+        return new CalculationResponseDTO(
+                simulationDTO.getInitialValue(),
+                simulationDTO.getInterestRate(),
+                simulationDTO.getPeriodInMonths(),
+                calculateFinalValue(simulationDTO),
+                calculateTotalProfit(simulationDTO));
     }
 
     private BigDecimal calculateFinalValue(SimulationDTO simulationDTO) {
@@ -54,12 +60,11 @@ public class SimulationService {
         BigDecimal growthFactor = decimalRate.add(BigDecimal.ONE);
 
         return simulationDTO.getInitialValue()
-                .multiply(growthFactor)
-                .pow(simulationDTO.getPeriodInMonths())
+                .multiply(growthFactor.pow(simulationDTO.getPeriodInMonths()))
                 .setScale(2, RoundingMode.HALF_UP);
     }
 
     private BigDecimal calculateTotalProfit(SimulationDTO simulationDTO) {
-        return simulate(simulationDTO).subtract(simulationDTO.getInitialValue());
+        return calculateFinalValue(simulationDTO).subtract(simulationDTO.getInitialValue());
     }
 }

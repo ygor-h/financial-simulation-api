@@ -1,6 +1,7 @@
 package com.ygorhenrique.financial_simulation_api.controller;
 
 import com.ygorhenrique.financial_simulation_api.domain.simulation.Simulation;
+import com.ygorhenrique.financial_simulation_api.dto.CalculationResponseDTO;
 import com.ygorhenrique.financial_simulation_api.dto.SimulationDTO;
 import com.ygorhenrique.financial_simulation_api.service.SimulationService;
 import jakarta.validation.Valid;
@@ -37,5 +38,11 @@ public class SimulationController {
     public ResponseEntity<Void> deleteSimulationById(@PathVariable Long id) {
         simulationService.deleteSimulation(id);
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/simulate")
+    public ResponseEntity<CalculationResponseDTO> simulate(@Valid @RequestBody SimulationDTO simulationDTO) {
+        CalculationResponseDTO response = simulationService.simulate(simulationDTO);
+        return ResponseEntity.ok(response);
     }
 }
