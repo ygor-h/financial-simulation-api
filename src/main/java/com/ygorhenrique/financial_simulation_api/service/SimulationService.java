@@ -45,13 +45,27 @@ public class SimulationService {
         simulationRepository.delete(simulation);
     }
 
+    private Simulation createSimulationFromDTO(SimulationDTO simulationDTO) {
+        BigDecimal finalValue = calculateFinalValue(simulationDTO);
+        BigDecimal totalProfit = calculateTotalProfit(simulationDTO);
+        Simulation simulation = new Simulation();
+        simulation.setInitialValue(simulationDTO.getInitialValue());
+        simulation.setInterestRate(simulationDTO.getInterestRate());
+        simulation.setPeriodInMonths(simulationDTO.getPeriodInMonths());
+        simulation.setFinalValue(finalValue);
+        simulation.setTotalProfit(totalProfit);
+        return simulation;
+    }
+
     public CalculationResponseDTO simulate(SimulationDTO simulationDTO) {
+        Simulation simulation = createSimulationFromDTO(simulationDTO);
+        simulationRepository.save(simulation);
         return new CalculationResponseDTO(
-                simulationDTO.getInitialValue(),
-                simulationDTO.getInterestRate(),
-                simulationDTO.getPeriodInMonths(),
-                calculateFinalValue(simulationDTO),
-                calculateTotalProfit(simulationDTO));
+                simulation.getInitialValue(),
+                simulation.getInterestRate(),
+                simulation.getPeriodInMonths(),
+                simulation.getFinalValue(),
+                simulation.getTotalProfit());
     }
 
     private BigDecimal calculateFinalValue(SimulationDTO simulationDTO) {

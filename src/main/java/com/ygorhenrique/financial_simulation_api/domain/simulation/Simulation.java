@@ -22,6 +22,10 @@ public class Simulation {
     private BigDecimal interestRate;
     @Column(name = "period_in_months", nullable = false)
     private Integer periodInMonths;
+    @Column(name = "final_value", nullable = false)
+    private BigDecimal finalValue;
+    @Column(name = "total_profit", nullable = false)
+    private BigDecimal totalProfit;
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
