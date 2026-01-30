@@ -19,7 +19,7 @@ public class SimulationService {
         this.simulationRepository = simulationRepository;
     }
 
-    public void saveSimulation(SimulationDTO simulationDTO) {
+    private void saveSimulation(SimulationDTO simulationDTO) {
         Simulation simulation = new Simulation();
         simulation.setInitialValue(simulationDTO.getInitialValue());
         simulation.setInterestRate(simulationDTO.getInterestRate());
