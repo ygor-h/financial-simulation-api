@@ -1,8 +1,8 @@
 package com.ygorhenrique.financial_simulation_api.controller;
 
-import com.ygorhenrique.financial_simulation_api.domain.simulation.Simulation;
 import com.ygorhenrique.financial_simulation_api.dto.CalculationResponseDTO;
 import com.ygorhenrique.financial_simulation_api.dto.SimulationDTO;
+import com.ygorhenrique.financial_simulation_api.dto.SimulationResponseDTO;
 import com.ygorhenrique.financial_simulation_api.service.SimulationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,12 +18,12 @@ public class SimulationController {
     private final SimulationService simulationService;
 
     @GetMapping
-    public ResponseEntity<List<Simulation>> getAllSimulations() {
+    public ResponseEntity<List<SimulationResponseDTO>> getAllSimulations() {
         return ResponseEntity.ok(simulationService.getAllSimulations());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Simulation> getSimulationById(@PathVariable Long id) {
+    public ResponseEntity<SimulationResponseDTO> getSimulationById(@PathVariable Long id) {
         return ResponseEntity.ok(simulationService.getSimulationById(id));
     }
 
