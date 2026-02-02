@@ -3,6 +3,7 @@ package com.ygorhenrique.financial_simulation_api.service;
 import com.ygorhenrique.financial_simulation_api.domain.simulation.Simulation;
 import com.ygorhenrique.financial_simulation_api.dto.CalculationResponseDTO;
 import com.ygorhenrique.financial_simulation_api.dto.SimulationDTO;
+import com.ygorhenrique.financial_simulation_api.exception.SimulationNotFoundException;
 import com.ygorhenrique.financial_simulation_api.repository.SimulationRepository;
 import org.springframework.stereotype.Service;
 
@@ -34,13 +35,13 @@ public class SimulationService {
 
     public Simulation getSimulationById(Long id) {
         return simulationRepository.findById(id).orElseThrow(
-                () -> new RuntimeException("ID não encontrado")
+                () -> new SimulationNotFoundException("ID não encontrado")
         );
     }
 
     public void deleteSimulation(Long id) {
         Simulation simulation = simulationRepository.findById(id).orElseThrow(
-                () -> new RuntimeException("ID não encontrado")
+                () -> new SimulationNotFoundException("ID não encontrado")
         );
         simulationRepository.delete(simulation);
     }
