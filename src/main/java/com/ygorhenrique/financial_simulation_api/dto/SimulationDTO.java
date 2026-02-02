@@ -10,13 +10,13 @@ import java.math.BigDecimal;
 @Data
 public class SimulationDTO {
     private Long id;
-    @Positive
+    @Positive(message = "Valor inicial precisa ser maior que zero")
     @NotNull(message = "Valor inicial é obrigatório")
     private BigDecimal initialValue;
-    @PositiveOrZero
+    @PositiveOrZero(message = "Taxa de Juros é necessário ser igual ou maior que zero")
     @NotNull(message = "Taxa de Juros é obrigatória")
     private BigDecimal interestRate;
-    @Positive
+    @Positive(message = "Período precisar ser maior que zero")
     @NotNull(message = "Período é obrigatório")
     private Integer periodInMonths;
 }
