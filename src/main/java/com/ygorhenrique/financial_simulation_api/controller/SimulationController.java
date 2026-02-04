@@ -1,8 +1,6 @@
 package com.ygorhenrique.financial_simulation_api.controller;
 
-import com.ygorhenrique.financial_simulation_api.dto.CalculationResponseDTO;
-import com.ygorhenrique.financial_simulation_api.dto.SimulationDTO;
-import com.ygorhenrique.financial_simulation_api.dto.SimulationResponseDTO;
+import com.ygorhenrique.financial_simulation_api.dto.*;
 import com.ygorhenrique.financial_simulation_api.service.SimulationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +34,12 @@ public class SimulationController {
     @PostMapping("/simulate")
     public ResponseEntity<CalculationResponseDTO> simulate(@Valid @RequestBody SimulationDTO simulationDTO) {
         CalculationResponseDTO response = simulationService.simulate(simulationDTO);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/simulate-with-contribution")
+    public ResponseEntity<SimulationWithContributionResponseDTO> simulateWithMonthlyContribution(@Valid @RequestBody MonthlyContributionDTO monthlyContributionDTO) {
+        SimulationWithContributionResponseDTO response = simulationService.simulateWithMonthlyContribution(monthlyContributionDTO);
         return ResponseEntity.ok(response);
     }
 }
