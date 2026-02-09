@@ -83,7 +83,7 @@ public class SimulationService {
                 simulation.getTotalProfit());
     }
 
-    public SimulationWithContributionResponseDTO simulateWithMonthlyContribution(MonthlyContributionDTO monthlyContributionDTO) {
+    public SimulationContributionResponseDTO simulateWithMonthlyContribution(MonthlyContributionDTO monthlyContributionDTO) {
         BigDecimal decimalRate = toDecimalRate(monthlyContributionDTO.getInterestRate());
         BigDecimal growthFactor = decimalRate.add(BigDecimal.ONE);
         BigDecimal balance = monthlyContributionDTO.getInitialValue();
@@ -105,7 +105,7 @@ public class SimulationService {
         BigDecimal totalContributed = monthlyContributionDTO.getInitialValue()
                 .add(monthlyContribution.multiply(BigDecimal.valueOf(months)));
         BigDecimal totalProfit = finalValue.subtract(totalContributed);
-        return new SimulationWithContributionResponseDTO(initialValue,
+        return new SimulationContributionResponseDTO(initialValue,
                 monthlyContribution,
                 months,
                 interestRate,
